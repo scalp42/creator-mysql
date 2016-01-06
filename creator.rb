@@ -15,7 +15,7 @@ else
   exit 1
 end
 
-tries ||= ENV.fetch('CREATOR_MYSQL_TRIES', 1)
+tries ||= ENV.fetch('CREATOR_MYSQL_TRIES', 1).to_i
 begin
   logger.info('creator-mysql') { %| => Connecting to #{ENV.fetch('CREATOR_MYSQL_HOST', 'localhost')}...| }
   c = Mysql.connect(
@@ -55,7 +55,7 @@ rescue Mysql::ServerError::AccessDeniedError, Errno::ETIMEDOUT => ex
 rescue SocketError => ex
   logger.warn('creator-mysql') { %| => #{ex.message}| }
   logger.warn('creator-mysql') { %| => Sleeping for #{ENV.fetch('CREATOR_MYSQL_SLEEP', 10)} seconds, attempts left #{tries}/#{ENV.fetch('CREATOR_MYSQL_TRIES', 1)}| }
-  sleep ENV.fetch('CREATOR_MYSQL_SLEEP', 10)
+  sleep ENV.fetch('CREATOR_MYSQL_SLEEP', 10).to_i
   retry unless (tries -= 1).zero?
 ensure
   logger.close
