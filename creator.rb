@@ -49,7 +49,7 @@ begin
     logger.close
     sleep
   end
-rescue Mysql::ServerError::AccessDeniedError, Errno::ETIMEDOUT => ex
+rescue Mysql::ServerError::AccessDeniedError, Errno::ETIMEDOUT, SocketError => ex
   logger.info('creator-mysql') { %| => #{ex.message}| }
 ensure
   logger.close
