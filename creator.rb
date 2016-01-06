@@ -3,6 +3,8 @@
 require 'logger'
 require 'mysql'
 
+$stdout.sync = true
+
 logger = Logger.new(STDOUT)
 logger.level = Logger::INFO
 
