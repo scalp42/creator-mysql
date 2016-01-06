@@ -5,12 +5,12 @@ require 'mysql'
 if ENV['CREATOR_MYSQL_DATABASES']
   dbs = ENV.fetch('CREATOR_MYSQL_DATABASES').split('|')
 else
-  puts %|#{__method__.to_s} => CREATOR_MYSQL_DATABASES variable does not exist! Bailing.|
+  puts %|#{__method__} => CREATOR_MYSQL_DATABASES variable does not exist! Bailing.|
   exit 1
 end
 
 begin
-  puts %|#{__method__.to_s} => Connecting to #{ENV.fetch('CREATOR_MYSQL_HOST', 'localhost')}...|
+  puts %|#{__method__} => Connecting to #{ENV.fetch('CREATOR_MYSQL_HOST', 'localhost')}...|
   c = Mysql.connect(
     ENV.fetch('CREATOR_MYSQL_HOST', 'localhost'),
         ENV.fetch('CREATOR_MYSQL_USER', 'root'),
@@ -29,17 +29,17 @@ begin
     mysql_flush = ['FLUSH PRIVILEGES;']
 
     %W|#{mysql_create.join("\n")} #{mysql_grant.join("\n")} #{mysql_flush.join("\n")}|.each do |query|
-      puts %|#{__method__.to_s} => Setting up #{db}...|
+      puts %|#{__method__} => Setting up #{db}...|
       c.query(query)
-      puts %|#{__method__.to_s} => ...done.|
+      puts %|#{__method__} => ...done.|
     end
   end
 
   if ENV['CREATOR_MARATHON']
     # Hack not have the app exit under Marathon
-    puts %|#{__method__.to_s} => CREATOR_MARATHON specified, sleeping forever.|
+    puts %|#{__method__} => CREATOR_MARATHON specified, sleeping forever.|
     sleep
   end
 rescue Mysql::ServerError::AccessDeniedError, Errno::ETIMEDOUT => ex
-  puts %|#{__method__.to_s} => #{ex.message}|
+  puts %|#{__method__} => #{ex.message}|
 end
