@@ -42,7 +42,7 @@ begin
       logger.info { %|=> Setting up #{db}...| }
       c.query(query)
       logger.info { %|=> ...done.| }
-      c.close
+      # c.close
     end
   end
 
